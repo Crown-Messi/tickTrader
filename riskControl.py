@@ -5,6 +5,7 @@ from .quote import Quote
 import utils
 
 
+
 """
 检查订单是否合理：
     可用资金是否充足
@@ -33,3 +34,11 @@ def riskControl(account:Account, order:Order, quote:Quote) -> int:
         
     return 0
 
+
+def judgeDeal(order:Order, quote:Quote):
+    """
+    判断订单在tick状态下是否可以成交
+    成交的话需要回调成交回报函数
+    """
+    for od in order.orderList:
+        pass

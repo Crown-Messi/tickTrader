@@ -1,9 +1,10 @@
 
 import utils
-
+from typing import List
 
 class Order(object):
     order_ID = 0
+    orderList = []  # [order]
     def __init__(self, time:str, code:str, vol:int, price:float, direction:int, state:int):
         self.time       = time
         self.code       = code

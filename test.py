@@ -113,6 +113,9 @@ class sudoA(type):
 
 class hjkg(object):
     x = 10
+    def __init__(cls):
+        # cls.x= 100
+        pass
 
 
 def wsh():
@@ -142,7 +145,7 @@ if __name__ == '__main__':
 
 
     aa = hjkg()
-    bb = hjkg()
-    hjkg.x = 111
-    print(hjkg.x)
+    # bb = hjkg()
+    # hjkg.x = 111
+    # print(hjkg.x)
     print(aa.x)
