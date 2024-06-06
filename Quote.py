@@ -153,6 +153,12 @@ class Quote(object):
     TickTime            = None  # tick时间
     TickVolume          = None
     TickAmount          = None
+    
+    
+    MarginRate          = 0.14  # 保证金比例
+    LotNumber           = 10    # 每手的数量
+    Fee                 = 8.9   # 每手的手续费  
+    TwoSideFee          = False # 纸浆只有单边手续费
 
 
 #  用于合成K线 支持分钟级别
@@ -174,56 +180,66 @@ class KLine(object):
         self.datalength = datalength
         self.data = pd.DataFrame(columns=["time", "open", "high", "low", "close", "volume", "amount", "upperLimit", "lowerLimit"])
 
-    def update(self, quote: Quote,):
+    def update(self, quote: Quote):
         tickTime = datetime.strptime(quote.TickTime, "%Y%m%d.%H:%M:%S.%f")
         
         if  time(0, 0, 0) <  tickTime.time() < time(9, 0, 0) or time(15, 0, 0) <  tickTime.time() < time(21, 0, 0) or \
             time(10, 15, 0) <  tickTime.time() < time(10, 30, 0) or time(11, 30, 0) <  tickTime.time() < time(13, 30, 0) or\
             time(23, 0, 0) <  tickTime.time() < time(23, 59, 59):
-            return  
+            return False
 
         if self.curMinute is None:
             self.curMinute = datetime(tickTime.year, tickTime.month, tickTime.day, tickTime.hour, tickTime.minute, 0)
             self.open = quote.NewPrice
+            self.close = quote.NewPrice
+            self.volume = quote.TickVolume
+            self.amount = quote.TickAmount
+            self.high = quote.NewPrice
+            self.low = quote.NewPrice
+            self.upperLimit = quote.UpperLimit
+            self.lowerLimit = quote.LowerLimit
 
             if time(10,15,0) <= self.curMinute.time() < time(10,30,0) or time(15,0,0) <= self.curMinute.time() < time(21,0,0) or\
                 time(0,0,0) <= self.curMinute.time() < time(9,0,0) or time(11,30,0) <= self.curMinute.time() < time(13,30,0) or \
                     time(23,0,0) <= self.curMinute.time() < time(23,59,59): 
                 self.curMinute = None
+            
+            return False
 
         else:
             if not (self.curMinute  <=  tickTime < self.curMinute + timedelta(minutes=self.minutes)):
-                
                 if time(10,15,0) <= self.curMinute.time() < time(10,30,0) or time(15,0,0) <= self.curMinute.time() < time(21,0,0) or\
                     time(0,0,0) <= self.curMinute.time() < time(9,0,0) or time(11,30,0) <= self.curMinute.time() < time(13,30,0) or \
                         time(23,0,0) <= self.curMinute.time() < time(23,59,59): 
                     self.curMinute = None
-                    return
+                    return False
                 
-                if self.counter < 50:
+                if self.counter < self.datalength:
                     self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
                 else:
-                    self.data.drop(0)
-                    self.data.loc[len(self.data)] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
+                    self.data.drop(self.data.index[0], inplace=True)
+                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
                     # print(self.counter, self.counter%self.datalength, self.data.loc[self.counter%self.datalength], sep="   ")
                 self.counter += 1
                 self.curMinute = datetime(tickTime.year, tickTime.month, tickTime.day, tickTime.hour, tickTime.minute)
                 self.open = quote.NewPrice
-                self.volume = 0
-                self.amount = 0
-                self.high = 0
-                self.low = 9999999999
-                self.upperLimit = 0
-                self.lowerLimit = 0
+                self.volume = quote.TickVolume
+                self.amount = quote.TickAmount
+                self.high = quote.NewPrice
+                self.low = quote.NewPrice
+                self.upperLimit = quote.UpperLimit
+                self.lowerLimit = quote.LowerLimit
+                return True
             else:
                 self.high = quote.NewPrice if quote.NewPrice > self.high else self.high
                 self.low = quote.NewPrice if quote.NewPrice < self.low else self.low
                 self.close  = quote.NewPrice
-                self.time = quote.TickTime
                 self.volume += quote.TickVolume
                 self.amount += quote.TickAmount
                 self.upperLimit = quote.UpperLimit
                 self.lowerLimit = quote.LowerLimit
+
+                return False
 
     def save(self, savePath):
         self.data.to_csv(savePath)          
@@ -236,7 +252,8 @@ if __name__ == "__main__":
             a = next(gen)
             # print(a.TickTime)
             tickTime = datetime.strptime(a.TickTime, "%Y%m%d.%H:%M:%S.%f")
-            myKLine.update(a)
+            flag = myKLine.update(a)
+            print(flag)
         except Exception as e:
             print(f"读取tick行情结束, {e}")
             break

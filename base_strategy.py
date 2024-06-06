@@ -1,4 +1,7 @@
-import backtrader as bt
+import pandas as pd
 
-
-bt.strategy
+def myStrategy(data: pd.DataFrame):
+    """策略
+    data：K线
+    """
+    pass
