@@ -112,9 +112,9 @@ class sudoA(type):
 
 
 class hjkg(object):
-    x = 10
-    def __init__(cls):
-        # cls.x= 100
+    x = []
+    def __init__(self):
+        self.m = 10
         pass
 
 
@@ -136,16 +136,18 @@ if __name__ == '__main__':
     # print(a.x)
     # print(b.x)
 
-    gh = enum.Enum("wsh", ("a", "b", "c"))
-    print(gh.b)
-    print(gh.b.name)
-    print(type(gh.b.value))
-    print
-    print(gh(1))
+    # gh = enum.Enum("wsh", ("a", "b", "c"))
+    # print(gh.b)
+    # print(gh.b.name)
+    # print(type(gh.b.value))
+    # print
+    # print(gh(1))
 
 
     aa = hjkg()
-    # bb = hjkg()
-    # hjkg.x = 111
-    # print(hjkg.x)
+    bb = hjkg()
+    aa.x.append(aa)
+    bb.x.append(bb)
+
     print(aa.x)
+    print(bb.x)

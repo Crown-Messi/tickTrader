@@ -1,8 +1,8 @@
 import enum
 from order import Order
 
-# 订单状态
-orderState = enum.Enum("orderState", ("ALLFINISHED", "PARTFINISHED", "ALLBACK", "WAITINGFINISH", "DISCARD"))
+# 订单状态         全成    部成   全撤  部撤  等待成交（已报单）  废单
+orderState = enum.Enum("orderState", ("ALLFINISHED", "PARTFINISHED", "ALLCANCEL", "PARTCANCEL", "WAITINGFINISH", "DISCARD"))
 
 # 订单方向
 orderDirection = enum.Enum("orderDirection", ("SHORT_OPEN", "LONG_OPEN", "SHORT_CLOSE", "LONG_CLOSE"))
@@ -28,3 +28,10 @@ def printOrder(order:Order):
             \t {order.price} \n\
             \t {order.vol} \n\
             {'------'*8}")
+    
+
+
+class response():
+    def __init__(self, msg, order):
+        self.msg     = msg # 回报中显示的单子状态
+        self.m_order = order 

@@ -6,6 +6,7 @@ class Account(object):
         self.available = self.asset
         self.useRate = 0
         self.position = {}
+        self.historyOrder = []
         """
             {
                 'future code':

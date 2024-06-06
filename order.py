@@ -9,7 +9,11 @@ class Order(object):
         self.time       = time
         self.code       = code
         self.vol        = vol
+        
         self.price      = price
         self.direction  = direction  # utils.orderDirection
         self.state      = state      # utils.orderState
         self.orderID    = Order.order_ID
+
+        self.dealVol    = []  # 成交信息
+        self.dealPrice  = [] 
