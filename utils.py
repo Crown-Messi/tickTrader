@@ -2,10 +2,10 @@ import enum
 from Order import Order
 
 # 订单状态         全成    部成   全撤  部撤  等待成交（已报单）  废单
-orderState = enum.Enum("orderState", ("ALLFINISHED", "PARTFINISHED", "ALLCANCEL", "PARTCANCEL", "WAITINGFINISH", "DISCARD"))
+orderState = enum.Enum("orderState", ("WAITINGREPORT","ALLFINISHED", "PARTFINISHED", "ALLCANCEL", "PARTCANCEL", "WAITINGFINISH", "DISCARD"))
 
 # 订单方向
-orderDirection = enum.Enum("orderDirection", ("SHORT_OPEN", "LONG_OPEN", "SHORT_CLOSE", "LONG_CLOSE"))
+orderDirection = enum.Enum("orderDirection", ("SHORT_OPEN", "LONG_OPEN", "SHORT_CLOSE", "LONG_CLOSE", "CANCEL"))
 
 # 错误代码
 Error = enum.Enum("Error", ("error1", "error2","error3"))

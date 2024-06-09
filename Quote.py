@@ -42,7 +42,7 @@ def cleanTickData(filePath):
 
 def tickQuote(csvDir):
     csvList = glob.glob(csvDir+"/*.csv")
-    csvList = ["/home/ztcapital/Codes/FutureQuant/backTestData/tickMore/sp2405_20240201.csv"]
+    csvList = ["/Users/wushuaihong/Code/Github_Item/tickTrader/backTestData/tickMore/sp2405_20240201.csv"]
     csvList.sort()
     for csvfile in csvList:
         reader = cleanTickData(csvfile)
@@ -175,10 +175,12 @@ class KLine(object):
         self.upperLimit = 0 # 涨停价
         self.lowerLimit = 0 # 跌停价
         self.minutes = minutes  # k线级别
+        self.code = ""
+
 
         self.counter = 0
         self.datalength = datalength
-        self.data = pd.DataFrame(columns=["time", "open", "high", "low", "close", "volume", "amount", "upperLimit", "lowerLimit"])
+        self.data = pd.DataFrame(columns=["time", "code", "open", "high", "low", "close", "volume", "amount", "upperLimit", "lowerLimit"])
 
     def update(self, quote: Quote):
         tickTime = datetime.strptime(quote.TickTime, "%Y%m%d.%H:%M:%S.%f")
@@ -190,6 +192,8 @@ class KLine(object):
 
         if self.curMinute is None:
             self.curMinute = datetime(tickTime.year, tickTime.month, tickTime.day, tickTime.hour, tickTime.minute, 0)
+            
+            self.code = quote.Instrument
             self.open = quote.NewPrice
             self.close = quote.NewPrice
             self.volume = quote.TickVolume
@@ -215,10 +219,10 @@ class KLine(object):
                     return False
                 
                 if self.counter < self.datalength:
-                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
+                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.code, self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
                 else:
                     self.data.drop(self.data.index[0], inplace=True)
-                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
+                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.code, self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
                     # print(self.counter, self.counter%self.datalength, self.data.loc[self.counter%self.datalength], sep="   ")
                 self.counter += 1
                 self.curMinute = datetime(tickTime.year, tickTime.month, tickTime.day, tickTime.hour, tickTime.minute)

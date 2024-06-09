@@ -9,6 +9,7 @@ from utils import response
 class Exchange(object):
     def __init__(self, args) -> None:
         self.KLine = None
+        self.args = args
         self.gen = tickQuote(args.tickDataSource)
 
     def makeBackTest(self, strategy:dict):
@@ -30,6 +31,24 @@ class Exchange(object):
                     rightTick = next(self.gen)
                     if self.KLine.update(rightTick):
                         STGFunc(self.KLine)  # K线更新 策略执行
+                    stg = self.KLine.iloc[-1]
+                    
+                    # 如果产生发单信号，则生成订单并进行风控检查
+                    if stg.tradingFlag == utils.orderDirection.LONG_OPEN or stg.tradingFlag == utils.orderDirection.SHORT_OPEN:
+                        order = Order(time=stg.time, code=stg.code, vol=stg.tradingVol, price=stg.tradingPrice, direction=stg.tradingFlag, state=utils.orderState.WAITINGREPORT)
+                        self.riskControl(account=self.args.account, order=order, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                    
+                    # 当前tick的成交检查
+                    self.checkDeal(quote=rightTick, quickDeal=self.args.quickDeal,account=self.args.account, callBack=self.args.callback.respOrderDealCallBack)
+
+                    if stg.tradingFlag == utils.orderDirection.CANCEL:
+                        for od in Order.orderList:
+
+                            self.checkCancel(order,self.args.account, self.args.callback.respOrderCancelCallBack, rightTick)
+                        pass
+
+
+                    
                 except Exception as e:
                     print(f"读取tick行情结束, {e}")
         else:
@@ -50,7 +69,7 @@ class Exchange(object):
             if (order.direction == utils.orderDirection.LONG_OPEN and account.position[order.code]["direction"] == utils.orderDirection.SHORT_OPEN) or \
                 (order.direction == utils.orderDirection.SHORT_OPEN and account.position[order.code]["direction"] == utils.orderDirection.LONG_OPEN):
                 return utils.Error.error1
-            
+
             # 平仓手数不足
             if order.direction == utils.orderDirection.SHORT_CLOSE or order.direction == utils.orderDirection.LONG_CLOSE and order.vol > account.position["order.code"]["vol"]:
                 return utils.Error.error2
@@ -76,7 +95,7 @@ class Exchange(object):
         return 0
 
 
-    def checkDeal(self, order:Order, quote:Quote, quickDeal:bool, account:Account, callBack:function):
+    def checkDeal(self, quote:Quote, quickDeal:bool, account:Account, callBack:function):
         """判断订单在tick状态下是否可以成交
         Args:
             order：订单对象，主要是需要订单类的属性 orderList
@@ -85,7 +104,12 @@ class Exchange(object):
             account：账户
             callBack：成交的回报函数对象
         """
-        for od in order.orderList:
+        for od in Order.orderList:
+            if not self.riskControl(account, od, quote, self.args.callback.respOrderSendCallBack):
+                pass
+            else:
+                self.checkCancel(od, account, self.args.callback.respOrderCancelCallBack, quote) # 同一品种的反向订单可以开出来，但是只要有其中一个订单成交了的话，另一个订单相当于是自成交，被判定后自动撤单
+
             # 同一标的有多个订单
             if quickDeal:
                 if od.direction == utils.orderDirection.LONG_CLOSE or od.direction == utils.orderDirection.SHORT_OPEN:
@@ -108,7 +132,9 @@ class Exchange(object):
                             od.status = utils.orderState.PARTFINISHED
                         else:
                             od.status = utils.orderState.ALLFINISHED
-                            order.orderList.remove(od)
+                            Order.orderList.remove(od)
+                        
+                        callBack(response("成交回报", od))
                 elif od.direction == utils.orderDirection.LONG_OPEN or od.direction == utils.orderDirection.SHORT_CLOSE:
                     if quote.AskPrice1 <= od.price:
                         od.dealVol.append(min(quote.AskVolume1, od.vol))
@@ -126,14 +152,14 @@ class Exchange(object):
                             od.status = utils.orderState.PARTFINISHED
                         else:
                             od.status = utils.orderState.ALLFINISHED
-                            order.orderList.remove(od)
+                            Order.orderList.remove(od)
+                        
+                        callBack(response("成交回报", od))
             else:
                 pass
 
-            callBack(response("成交回报", od))
 
-
-    def checkCancel(self, order:Order, callBack:function):
+    def checkCancel(self, order:Order, account:Account, callBack:function, quote:Quote):
         """撤单检查
         Args:
             order：目标撤销订单
@@ -144,6 +170,7 @@ class Exchange(object):
             return 
 
         order.orderList.remove(order)
+        account.available += order.vol*order.price*quote.LotNumber*quote.MarginRate
         if order.dealVol != 0:
             order.state = utils.orderState.PARTCANCEL
         else:

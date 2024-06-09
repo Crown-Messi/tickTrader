@@ -33,9 +33,9 @@ class CallBackBase(object):
 
 
 class smltCallBack(CallBackBase):
-    def __init__(self, account: Account):
+    def __init__(self, args):
         super(smltCallBack, self).__init__()
-        self.account = account
+        self.args = args
     
     def respOrderSendCallBack(self, resp:response):
         """
