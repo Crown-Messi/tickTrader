@@ -18,34 +18,45 @@ class Exchange(object):
         {
             KLine: -1,   # 该参数为-1，表示策略是基于tick行情的，正数表示策略是基于对应分钟的K线
             KLineLength: 0, # 测
-            function: 策略函数（基于tick的策略还没有开发过）
+            stgFunction: 开仓策略函数（基于tick的策略还没有开发过）
+            cancelSeconds: 撤单的秒数，如果是基于K线撤单的，该参数应该置为-1
+
         }
         """
         STGKLine = strategy["KLine"]
-        STGFunc = strategy["function"]
+        STGFunc = strategy["stgFunction"]
+        STGCancel = strategy["cancelSeconds"]
         
         if STGKLine > 0:
             self.KLine = KLine(minutes=STGKLine, datalength=strategy["KLineLength"])  # 本质上是一个pandas 的DataFrame对象
             while True:
                 try:
                     rightTick = next(self.gen)
+                    
+                    
+                    
+                    
                     if self.KLine.update(rightTick):
                         STGFunc(self.KLine)  # K线更新 策略执行
-                    stg = self.KLine.iloc[-1]
-                    
-                    # 如果产生发单信号，则生成订单并进行风控检查
-                    if stg.tradingFlag == utils.orderDirection.LONG_OPEN or stg.tradingFlag == utils.orderDirection.SHORT_OPEN:
-                        order = Order(time=stg.time, code=stg.code, vol=stg.tradingVol, price=stg.tradingPrice, direction=stg.tradingFlag, state=utils.orderState.WAITINGREPORT)
-                        self.riskControl(account=self.args.account, order=order, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
-                    
+                        stg = self.KLine.iloc[-1]
+                        if STGCancel != -1:  # 基于k线的撤单函数
+                            if self.KLine.iloc[-1].tradingFlag == utils.orderDirection.CANCEL:
+                                for od in Order.orderList:
+                                    if od.code == stg.code:                       
+                                        self.checkCancel(od, self.args.account, self.args.callback.respOrderCancelCallBack, rightTick)
+                        
+                        # 如果产生发单信号，则生成订单并进行风控检查
+                        if stg.tradingFlag == utils.orderDirection.LONG_OPEN or stg.tradingFlag == utils.orderDirection.SHORT_OPEN:
+                            order = Order(time=stg.time, code=stg.code, vol=stg.tradingVol, price=stg.tradingPrice, direction=stg.tradingFlag, state=utils.orderState.WAITINGREPORT)
+                            self.riskControl(account=self.args.account, order=order, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                        
                     # 当前tick的成交检查
                     self.checkDeal(quote=rightTick, quickDeal=self.args.quickDeal,account=self.args.account, callBack=self.args.callback.respOrderDealCallBack)
+                    # 当前tick的止盈止损线检查
 
-                    if stg.tradingFlag == utils.orderDirection.CANCEL:
-                        for od in Order.orderList:
-
-                            self.checkCancel(order,self.args.account, self.args.callback.respOrderCancelCallBack, rightTick)
-                        pass
+                    
+                    
+                        
 
 
                     
