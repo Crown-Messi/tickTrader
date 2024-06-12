@@ -20,13 +20,13 @@ errorDict = {
 
 def printOrder(order:Order):
     print(f"Order info: \n {'------'*8}")
-    print(f"\t {order.order_ID} \n\
-            \t {order.orderID} \n\
-            \t {order.time} \n \
-            \t {order.code} \n\
-            \t {order.direction} \n\
-            \t {order.price} \n\
-            \t {order.vol} \n\
+    print(f"\t\t 编号：{order.orderID} \n\
+            \t 时间：{order.time} \n \
+            \t 品种：{order.code} \n\
+            \t 方向：{order.direction} \n\
+            \t 价格：{order.price} \n\
+            \t 手数：{order.vol} \n\
+            \t 状态：{order.state} \n\
             {'------'*8}")
     
 

@@ -1,0 +1,712 @@
+(CTPApiPy) (base) ztcapital@ZTCapital01:~/Codes/FutureQuant$ python test_Exchange.py 
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：6 
+                 时间：20240201 22:17:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5680.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：6 
+                 时间：20240201.22:28:54.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5680.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -1, 'amount': 5680.0, 'openAvgPrice': -5680.0, 'dealTime': '20240201.22:28:54.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：7 
+                 时间：20240201 22:29:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5686.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：7 
+                 时间：20240201.22:30:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5686.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -2, 'amount': 11366.0, 'openAvgPrice': -5683.0, 'dealTime': '20240201.22:30:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：8 
+                 时间：20240201 22:30:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5686.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：8 
+                 时间：20240201.22:31:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5686.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -3, 'amount': 17052.0, 'openAvgPrice': -5684.0, 'dealTime': '20240201.22:31:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：9 
+                 时间：20240201 22:31:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5688.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：9 
+                 时间：20240201.22:51:14.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5688.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -4, 'amount': 22740.0, 'openAvgPrice': -5685.0, 'dealTime': '20240201.22:51:14.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：10 
+                 时间：20240201 22:53:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5696.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：10 
+                 时间：20240201.22:54:33.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5696.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -5, 'amount': 28436.0, 'openAvgPrice': -5687.2, 'dealTime': '20240201.22:54:33.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：11 
+                 时间：20240201 22:54:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5700.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：12 
+                 时间：20240201 22:55:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5698.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：12 
+                 时间：20240201.22:56:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5698.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -6, 'amount': 34134.0, 'openAvgPrice': -5689.0, 'dealTime': '20240201.22:56:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：13 
+                 时间：20240201 22:56:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5698.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：13 
+                 时间：20240201.22:57:03.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5698.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -7, 'amount': 39832.0, 'openAvgPrice': -5690.285714285715, 'dealTime': '20240201.22:57:03.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：14 
+                 时间：20240201 22:57:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5700.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：11 
+                 时间：20240201.22:58:02.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5700.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -8, 'amount': 45532.0, 'openAvgPrice': -5691.5, 'dealTime': '20240201.22:58:02.0'}}
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：14 
+                 时间：20240201.22:58:02.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5700.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -9, 'amount': 51232.0, 'openAvgPrice': -5692.444444444444, 'dealTime': '20240201.22:58:02.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：15 
+                 时间：20240201 22:58:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5706.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：15 
+                 时间：20240201.22:59:23.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5706.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -10, 'amount': 56938.0, 'openAvgPrice': -5693.8, 'dealTime': '20240201.22:59:23.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：16 
+                 时间：20240201 22:59:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：16 
+                 时间：20240201.09:00:05.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -11, 'amount': 62646.0, 'openAvgPrice': -5695.090909090909, 'dealTime': '20240201.09:00:05.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：17 
+                 时间：20240201 09:00:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5716.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：18 
+                 时间：20240201 09:01:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5712.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：18 
+                 时间：20240201.09:02:01.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5712.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -12, 'amount': 68358.0, 'openAvgPrice': -5696.5, 'dealTime': '20240201.09:02:01.500'}}
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：17 
+                 时间：20240201.09:02:08.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5716.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -13, 'amount': 74074.0, 'openAvgPrice': -5698.0, 'dealTime': '20240201.09:02:08.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：19 
+                 时间：20240201 09:02:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：19 
+                 时间：20240201.09:03:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -14, 'amount': 79782.0, 'openAvgPrice': -5698.714285714285, 'dealTime': '20240201.09:03:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：20 
+                 时间：20240201 09:03:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：20 
+                 时间：20240201.09:04:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5708.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -15, 'amount': 85490.0, 'openAvgPrice': -5699.333333333333, 'dealTime': '20240201.09:04:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：21 
+                 时间：20240201 09:09:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5714.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：21 
+                 时间：20240201.09:10:33.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5714.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -16, 'amount': 91204.0, 'openAvgPrice': -5700.25, 'dealTime': '20240201.09:10:33.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：22 
+                 时间：20240201 09:10:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5716.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：22 
+                 时间：20240201.09:13:05.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5716.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -17, 'amount': 96920.0, 'openAvgPrice': -5701.176470588235, 'dealTime': '20240201.09:13:05.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：23 
+                 时间：20240201 09:13:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5722.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：23 
+                 时间：20240201.09:14:05.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5722.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -18, 'amount': 102642.0, 'openAvgPrice': -5702.333333333333, 'dealTime': '20240201.09:14:05.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：24 
+                 时间：20240201 09:14:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：24 
+                 时间：20240201.09:15:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -19, 'amount': 108366.0, 'openAvgPrice': -5703.473684210527, 'dealTime': '20240201.09:15:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：25 
+                 时间：20240201 09:15:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5722.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：25 
+                 时间：20240201.09:16:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5722.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -20, 'amount': 114088.0, 'openAvgPrice': -5704.4, 'dealTime': '20240201.09:16:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：26 
+                 时间：20240201 09:16:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：26 
+                 时间：20240201.09:17:00.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -21, 'amount': 119814.0, 'openAvgPrice': -5705.428571428572, 'dealTime': '20240201.09:17:00.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：27 
+                 时间：20240201 09:17:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：27 
+                 时间：20240201.09:18:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -22, 'amount': 125538.0, 'openAvgPrice': -5706.272727272727, 'dealTime': '20240201.09:18:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：28 
+                 时间：20240201 09:18:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：28 
+                 时间：20240201.09:19:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -23, 'amount': 131264.0, 'openAvgPrice': -5707.130434782609, 'dealTime': '20240201.09:19:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：29 
+                 时间：20240201 09:19:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5730.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：29 
+                 时间：20240201.09:20:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5730.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -24, 'amount': 136994.0, 'openAvgPrice': -5708.083333333333, 'dealTime': '20240201.09:20:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：30 
+                 时间：20240201 09:20:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：30 
+                 时间：20240201.09:21:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -25, 'amount': 142720.0, 'openAvgPrice': -5708.8, 'dealTime': '20240201.09:21:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：31 
+                 时间：20240201 09:21:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：36 
+                 时间：20240201 11:01:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5720.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：36 
+                 时间：20240201.11:02:06.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5720.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -26, 'amount': 148440.0, 'openAvgPrice': -5709.2307692307695, 'dealTime': '20240201.11:02:06.0'}}
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：31 
+                 时间：20240201.14:02:57.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -27, 'amount': 154166.0, 'openAvgPrice': -5709.851851851852, 'dealTime': '20240201.14:02:57.500'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：37 
+                 时间：20240201 14:02:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：38 
+                 时间：20240201 14:03:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：38 
+                 时间：20240201.14:06:00.500 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5724.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -28, 'amount': 159890.0, 'openAvgPrice': -5710.357142857143, 'dealTime': '20240201.14:06:00.500'}}
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：37 
+                 时间：20240201.14:07:09.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5726.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -29, 'amount': 165616.0, 'openAvgPrice': -5710.896551724138, 'dealTime': '20240201.14:07:09.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：39 
+                 时间：20240201 14:07:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5728.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：39 
+                 时间：20240201.14:08:00.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5728.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 
+            ------------------------------------------------
+{'sp2405': {'position': <orderDirection.SHORT_OPEN: 1>, 'volume': -30, 'amount': 171344.0, 'openAvgPrice': -5711.466666666666, 'dealTime': '20240201.14:08:00.0'}}
+发单：
+Order info: 
+ ------------------------------------------------
+                 编号：40 
+                 时间：20240201 14:09:00 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5730.0 
+                 手数：1 
+                 状态：orderState.WAITINGFINISH 
+            ------------------------------------------------
+成交
+Order info: 
+ ------------------------------------------------
+                 编号：40 
+                 时间：20240201.14:10:16.0 
+                 品种：sp2405 
+                 方向：orderDirection.SHORT_OPEN 
+                 价格：5730.0 
+                 手数：0 
+                 状态：orderState.ALLFINISHED 

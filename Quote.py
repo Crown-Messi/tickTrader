@@ -42,7 +42,7 @@ def cleanTickData(filePath):
 
 def tickQuote(csvDir):
     csvList = glob.glob(csvDir+"/*.csv")
-    csvList = ["/Users/wushuaihong/Code/Github_Item/tickTrader/backTestData/tickMore/sp2405_20240201.csv"]
+    csvList = ["/home/ztcapital/Codes/FutureQuant/backTestData/tickMore/sp2405_20240201.csv"]
     csvList.sort()
     for csvfile in csvList:
         reader = cleanTickData(csvfile)
@@ -218,12 +218,33 @@ class KLine(object):
                     self.curMinute = None
                     return False
                 
-                if self.counter < self.datalength:
-                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.code, self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
+                if self.counter < self.datalength:    
+                    self.data.loc[self.counter] = {
+                        "time":self.curMinute.strftime("%Y%m%d %H:%M:%S"), 
+                        "code":self.code, 
+                        "open":self.open, 
+                        "high":self.high, 
+                        "low":self.low, 
+                        "close":self.close, 
+                        "volume":self.volume, 
+                        "amount":self.amount, 
+                        "upperLimit":self.upperLimit, 
+                        "lowerLimit":self.lowerLimit
+                    }
                 else:
                     self.data.drop(self.data.index[0], inplace=True)
-                    self.data.loc[self.counter] = [self.curMinute.strftime("%Y%m%d %H:%M:%S"), self.code, self.open, self.high, self.low, self.close, self.volume, self.amount, self.upperLimit, self.lowerLimit]
-                    # print(self.counter, self.counter%self.datalength, self.data.loc[self.counter%self.datalength], sep="   ")
+                    self.data.loc[self.counter] = {
+                        "time":self.curMinute.strftime("%Y%m%d %H:%M:%S"), 
+                        "code":self.code, 
+                        "open":self.open, 
+                        "high":self.high, 
+                        "low":self.low, 
+                        "close":self.close, 
+                        "volume":self.volume, 
+                        "amount":self.amount, 
+                        "upperLimit":self.upperLimit, 
+                        "lowerLimit":self.lowerLimit
+                    }
                 self.counter += 1
                 self.curMinute = datetime(tickTime.year, tickTime.month, tickTime.day, tickTime.hour, tickTime.minute)
                 self.open = quote.NewPrice
@@ -249,6 +270,7 @@ class KLine(object):
         self.data.to_csv(savePath)          
 
 if __name__ == "__main__":
+    from base_strategy import myStrategy
     gen = tickQuote("./backTestData/tickMore")
     myKLine = KLine(minutes=1, datalength=200)  # 1min 的k线 除了开盘时候的成交量，其余基本大小都正确
     while True:
@@ -257,13 +279,14 @@ if __name__ == "__main__":
             # print(a.TickTime)
             tickTime = datetime.strptime(a.TickTime, "%Y%m%d.%H:%M:%S.%f")
             flag = myKLine.update(a)
-            print(flag)
         except Exception as e:
             print(f"读取tick行情结束, {e}")
             break
         # if len(myKLine.data) > 20:
         #     print(myKLine.data.tail(21))
         #     break
-    print(myKLine.data.tail(200))
+    # print(myKLine.data.tail(200))
+
+    print(myStrategy(myKLine.data).tail(50))
 
     

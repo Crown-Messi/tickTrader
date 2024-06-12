@@ -11,10 +11,13 @@ class Account(object):
             {
                 'future code':
                 {
-                    'vol': int,  # 手数
+                    'volume': int,  # 手数
+                    'amount':float
                     'direction': utils.orderDirection,  # 方向
                     'openAvgPrice': float, # 开仓均价
                     'PL': float   # 盈亏
+                    'stopEarnLoss':[[direction, vol, price]]
+                    'dealtime':str
                 }
             }
         """
