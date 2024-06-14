@@ -41,20 +41,26 @@ class smltCallBack(CallBackBase):
         """
         发单回报
         """
-        print("发单：")
+        print("发单************************")
         utils.printOrder(resp.m_order)
-        
+        utils.printOrderList(resp.m_order)
+        utils.printAccount(resp.account)
 
     def respOrderDealCallBack(self, resp:response):
         """
         成交回报
         """
-        print("成交")
+        print("成交************************")
         utils.printOrder(resp.m_order)
+        utils.printOrderList(resp.m_order)
+        utils.printAccount(resp.account)
 
     def respOrderCancelCallBack(self, resp:response):
         """
         撤单回报
         """
-        print("撤单")
+        print("撤单************************")
+        print("原因：", resp.msg)
         utils.printOrder(resp.m_order)
+        utils.printOrderList(resp.m_order)
+        utils.printAccount(resp.account)

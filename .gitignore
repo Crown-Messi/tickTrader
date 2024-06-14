@@ -1,3 +1,4 @@
 backTestData/
 ./test.py
-__pycache__
+__pycache__/
+./log*

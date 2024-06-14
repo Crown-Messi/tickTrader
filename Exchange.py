@@ -41,7 +41,7 @@ class Exchange(object):
                         if self.KLine.data.iloc[-1].tradingFlag == utils.orderDirection.CANCEL:
                             for od in Order.orderList:
                                 if od.code == stg.code:                       
-                                    self.checkCancel(od, self.args.account, self.args.callback.respOrderCancelCallBack, rightTick)
+                                    self.checkCancel(utils.Cancel.cancel1, od, self.args.account, self.args.callback.respOrderCancelCallBack, rightTick)
                     
                     # 如果产生发单（开仓）信号，则生成订单并进行风控检查
                     if stg.tradingFlag == utils.orderDirection.LONG_OPEN or stg.tradingFlag == utils.orderDirection.SHORT_OPEN:
@@ -56,8 +56,44 @@ class Exchange(object):
                 self.checkDeal(quote=rightTick, quickDeal=self.args.quickDeal,account=self.args.account, callBack=self.args.callback.respOrderDealCallBack)
                 
                 # 当前tick的止盈止损线检查
+                for stock, pos in self.args.account.position.items():
+                    if stock != rightTick.Instrument:
+                        continue
+                    # 多单平仓
+                    if pos["direction"] == utils.orderDirection.LONG_OPEN:
+                        for stel in pos["stopEarnLoss"]:
+                            if stel[4] == rightTick.AskPrice1:
+                                self.orderid += 1
+                                stel.append(self.orderid)
+                                closeOrder = Order(orderid=self.orderid, time=rightTick.TickTime, code=rightTick.Instrument, vol=stel[3], \
+                                                price=stel[4], stopEarnPrice=0, stopLossPrice=0, direction=utils.orderDirection.LONG_CLOSE, state=utils.orderState.WAITINGREPORT)
+                                riskRtn = self.riskControl(account=self.args.account, order=closeOrder, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                                print("riskRtn: ", riskRtn)
+                            if stel[5] == rightTick.BuyPrice1:
+                                self.orderid += 1
+                                stel.append(self.orderid)
+                                closeOrder = Order(orderid=self.orderid, time=rightTick.TickTime, code=rightTick.Instrument, vol=stel[3], \
+                                                price=stel[5], stopEarnPrice=0, stopLossPrice=0, direction=utils.orderDirection.LONG_CLOSE, state=utils.orderState.WAITINGREPORT)
+                                riskRtn = self.riskControl(account=self.args.account, order=closeOrder, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                                print("riskRtn: ", riskRtn)
 
-
+                    if pos["direction"] == utils.orderDirection.SHORT_OPEN:
+                        for stel in pos["stopEarnLoss"]:
+                            if stel[4] == rightTick.BuyPrice1:
+                                self.orderid += 1
+                                stel.append(self.orderid)
+                                closeOrder = Order(orderid=self.orderid, time=rightTick.TickTime, code=rightTick.Instrument, vol=stel[3], \
+                                                price=stel[4], stopEarnPrice=0, stopLossPrice=0, direction=utils.orderDirection.LONG_CLOSE, state=utils.orderState.WAITINGREPORT)
+                                riskRtn = self.riskControl(account=self.args.account, order=closeOrder, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                                print("riskRtn: ", riskRtn)
+                            if stel[5] == rightTick.AskPrice1:
+                                self.orderid += 1
+                                stel.append(self.orderid)
+                                closeOrder = Order(orderid=self.orderid, time=rightTick.TickTime, code=rightTick.Instrument, vol=stel[3], \
+                                                price=stel[5], stopEarnPrice=0, stopLossPrice=0, direction=utils.orderDirection.LONG_CLOSE, state=utils.orderState.WAITINGREPORT)
+                                riskRtn = self.riskControl(account=self.args.account, order=closeOrder, quote=rightTick, callback=self.args.callback.respOrderSendCallBack)
+                                print("riskRtn: ", riskRtn)
+                    self.checkDeal(quote=rightTick, quickDeal=self.args.quickDeal,account=self.args.account, callBack=self.args.callback.respOrderDealCallBack)
                 # except Exception as e:
                 #     print(f"读取tick行情结束, {e}")
                 #     break
@@ -81,8 +117,8 @@ class Exchange(object):
                 return utils.Error.error1
 
             # 平仓手数不足
-            if (order.direction == utils.orderDirection.SHORT_CLOSE and order.vol > -account.position[order.code].get("vol", 0) > 0) or \
-                (order.direction == utils.orderDirection.LONG_CLOSE and order.vol > account.position[order.code].get("vol", 0) > 0):
+            if (order.direction == utils.orderDirection.SHORT_CLOSE or order.direction == utils.orderDirection.LONG_CLOSE) \
+                and order.vol > account.position[order.code].get("volume", 0) - account.position[order.code].get("lockVol", 0):
                 return utils.Error.error2
             
         # 开仓可用资金不足
@@ -100,7 +136,11 @@ class Exchange(object):
             order.orderList.append(order)
             account.historyOrder.append(order)
             order.state = utils.orderState.WAITINGFINISH
-            callback(response("订单发送", order))
+
+            if order.direction == utils.orderDirection.LONG_CLOSE or order.direction == utils.orderDirection.SHORT_CLOSE:
+                account.position[order.code]["lockVol"] += order.vol
+
+            callback(response("订单发送", order, self.args.account))
         
         return 0
 
@@ -118,8 +158,8 @@ class Exchange(object):
             if not self.riskControl(account, od, quote, self.args.callback.respOrderSendCallBack):
                 pass
             else:
-                self.checkCancel(od, account, self.args.callback.respOrderCancelCallBack, quote) # 同一品种的反向订单可以开出来，但是只要有其中一个订单成交了的话，另一个订单相当于是自成交，被判定后自动撤单
-
+                print("撤单风控错误：", self.riskControl(account, od, quote, self.args.callback.respOrderSendCallBack))
+                self.checkCancel(utils.Cancel.cancel2, od, account, self.args.callback.respOrderCancelCallBack, quote) # 同一品种的反向订单可以开出来，但是只要有其中一个订单成交了的话，另一个订单相当于是自成交，被判定后自动撤单
 
             # print(od.price, od.direction, quote.BuyPrice1, quote.AskPrice1, sep="   ")
             # 同一标的有多个订单
@@ -131,8 +171,7 @@ class Exchange(object):
                         od.vol = od.vol - od.dealVol[-1]
                         od.time = quote.TickTime
     
-                        if od.direction == utils.orderDirection.LONG_CLOSE:
-                            account.available += od.dealVol[-1]*od.dealPrice[-1]*quote.LotNumber*quote.MarginRate*(1 if od.direction == utils.orderDirection.LONG_CLOSE else -1)
+                        account.available += od.dealVol[-1]*od.dealPrice[-1]*quote.LotNumber*quote.MarginRate*(1 if od.direction == utils.orderDirection.LONG_CLOSE else -1)
 
                         if (quote.TwoSideFee and od.direction == utils.orderDirection.LONG_CLOSE) or od.direction == utils.orderDirection.SHORT_OPEN:  # 有的品种是双边手续费
                             account.available -= od.dealVol[-1]*quote.Fee
@@ -140,27 +179,44 @@ class Exchange(object):
                         if od.code not in account.position:
                             account.position[od.code] = {
                                 "direction": -1,
-                                "volume": 0, 
+                                "volume": 0,
+                                "lockVol": 0,
                                 "amount": 0, 
                                 "openAvgPrice": 0,
-                                "dealTime": None
+                                "dealTime": None,
+                                "suborderid":0,
+                                "stopEarnLoss":[]
                             }
                         
                         account.position[od.code].update({
                             "direction": od.direction,
-                            "volume": account.position[od.code]["volume"] - od.dealVol[-1],
+                            "volume": account.position[od.code]["volume"] + od.dealVol[-1]*(1 if od.direction == utils.orderDirection.SHORT_OPEN else -1),
                             "dealTime": quote.TickTime
                         })
-                        account.position[od.code]["amount"] = account.position[od.code]["amount"] + od.dealVol[-1]*od.dealPrice[-1]
+                        account.position[od.code]["amount"] = account.position[od.code]["amount"] + od.dealVol[-1]*od.dealPrice[-1]*(1 if od.direction == utils.orderDirection.SHORT_OPEN else -1)
                         account.position[od.code]["openAvgPrice"] = account.position[od.code]["amount"]/account.position[od.code]["volume"]
+                        
+                        if od.direction == utils.orderDirection.SHORT_OPEN:
+                            account.position[od.code]["suborderid"] += 1
+                            account.position[od.code]["stopEarnLoss"].append([od.orderID, account.position[od.code]["suborderid"], od.direction, od.dealVol[-1], od.stopEarnPrice, od.stopLossPrice])
                         
                         if od.vol != 0:
                             od.state = utils.orderState.PARTFINISHED
+                            if od.direction == utils.orderDirection.LONG_CLOSE:
+                                txp = next((tls for tls in account.position[od.code]["stopEarnLoss"] if tls[6]==od.orderID))
+                                txp[3] -= od.dealVol[-1]
+                                account.position[od.code]["lockVol"] -= od.dealVol[-1]
                         else:
                             od.state = utils.orderState.ALLFINISHED
                             Order.orderList.remove(od)
-                        callBack(response("成交回报", od))
-                        print(account.position, account.available, sep="   ")
+                            if od.direction == utils.orderDirection.LONG_CLOSE:
+                                txp = next((tls for tls in account.position[od.code]["stopEarnLoss"] if tls[6]==od.orderID))
+                                account.position[od.code]["stopEarnLoss"].remove(txp)
+                                account.position[od.code]["lockVol"] -= od.dealVol[-1]
+
+
+                        callBack(response("成交回报", od, self.args.account))
+                        # print(account.position, account.available, sep="   ")
 
                 elif od.direction == utils.orderDirection.LONG_OPEN or od.direction == utils.orderDirection.SHORT_CLOSE:
                     if quote.AskPrice1 !=0 and quote.AskPrice1 <= od.price:
@@ -169,8 +225,7 @@ class Exchange(object):
                         od.vol = od.vol - od.dealVol[-1]
                         od.time = quote.TickTime
 
-                        if od.direction == utils.orderDirection.SHORT_CLOSE:
-                            account.available += od.dealVol[-1]*od.dealPrice[-1]*quote.LotNumber*quote.MarginRate*(1 if od.direction == utils.orderDirection.SHORT_CLOSE else -1)
+                        account.available += od.dealVol[-1]*od.dealPrice[-1]*quote.LotNumber*quote.MarginRate*(1 if od.direction == utils.orderDirection.SHORT_CLOSE else -1)
                         
                         if (quote.TwoSideFee and od.direction == utils.orderDirection.SHORT_CLOSE) or od.direction == utils.orderDirection.LONG_OPEN:  # 有的品种是双边手续费
                             account.available -= od.dealVol[-1]*quote.Fee
@@ -179,39 +234,56 @@ class Exchange(object):
                             account.position[od.code] = {
                                 "direction": -1,
                                 "volume": 0, 
+                                "lockVol": 0,
                                 "amount": 0, 
                                 "openAvgPrice": 0,
-                                "dealTime": None
+                                "dealTime": None, 
+                                "suborderid":0,
+                                "stopEarnLoss":[]
                             }
                         
                         account.position[od.code].update({
                             "direction": od.direction,
-                            "volume": account.position[od.code].get("volume", 0) + od.dealVol[-1],
+                            "volume": account.position[od.code].get("volume", 0) + od.dealVol[-1]*(1 if od.direction == utils.orderDirection.LONG_OPEN else -1),
                             "dealTime": quote.TickTime
                         })
-                        account.position[od.code]["amount"] = account.position[od.code]["amount"] + od.dealVol[-1]*od.dealPrice[-1]
+                        account.position[od.code]["amount"] = account.position[od.code]["amount"] + od.dealVol[-1]*od.dealPrice[-1]*(1 if od.direction == utils.orderDirection.LONG_OPEN else -1)
                         account.position[od.code]["openAvgPrice"] = account.position[od.code]["amount"]/account.position[od.code]["volume"]
                         
+                        
+                        if od.direction == utils.orderDirection.LONG_OPEN:
+                            account.position[od.code]["suborderid"] += 1
+                            account.position[od.code]["stopEarnLoss"].append([od.orderID, account.position[od.code]["suborderid"], od.direction, od.dealVol[-1], od.stopEarnPrice, od.stopLossPrice])
+
                         if od.vol != 0:
                             od.state = utils.orderState.PARTFINISHED
+                            if od.direction == utils.orderDirection.SHORT_CLOSE:
+                                txp = next((tls for tls in account.position[od.code]["stopEarnLoss"] if tls[6]==od.orderID))
+                                txp[3] -= od.dealVol[-1]
+                                account.position[od.code]["lockVol"] -= od.dealVol[-1]
                         else:
                             od.state = utils.orderState.ALLFINISHED
                             Order.orderList.remove(od)
+                            if od.direction == utils.orderDirection.SHORT_CLOSE:
+                                txp = next((tls for tls in account.position[od.code]["stopEarnLoss"] if tls[6]==od.orderID))
+                                account.position[od.code]["stopEarnLoss"].remove(txp)
+                                account.position[od.code]["lockVol"] -= od.dealVol[-1]
+
                         
-                        callBack(response("成交回报", od))
-                        print(account.position, account.available, sep="   ")
+                        callBack(response("成交回报", od, self.args.account))
+                        # print(account.position, account.available, sep="   ")
             else:
                 pass
 
 
-    def checkCancel(self, order:Order, account:Account, callBack:Callable, quote:Quote):
+    def checkCancel(self, msg:str, order:Order, account:Account, callBack:Callable, quote:Quote):
         """撤单检查
         Args:
             order：目标撤销订单
             callBack：回调函数
         """
         if order not in order.orderList:
-            callBack(response("撤单失败，订单不存在", order))
+            callBack(response(msg, order, self.args.account))
             return 
 
         order.orderList.remove(order)
@@ -221,11 +293,12 @@ class Exchange(object):
         else:
             order.state = utils.orderState.ALLCANCEL
         
-        callBack(response("撤单回报", order))
+        callBack(response(msg, order, self.args.account))
 
 
     def checkStop(self, order:Order, account:Account, callBack:Callable, quote:Quote):
         for od in Order.orderList:
+            
             pass
         pass
 
